@@ -1,0 +1,103 @@
+{% include "/include/header.html" %}
+
+<h3 class="mt-3">Welcome, {{ u.fname }}</h3>
+<h6>Manage Your Saved Keywords and News Sources</h6>
+<hr>
+{% with msgs = get_flashed_messages() %}
+    {% if (msgs) %}
+        <div class="col-xl-8 m-auto alert alert-danger py-2 px-3 mb-3">
+            {% for m in msgs %}
+                <p class="text-danger mb-0">{{ m }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+{% if conf_msg %}
+    <div class="col-xl-8 m-auto alert alert-success py-2 px-3 mb-3">{{ conf_msg }}</div>
+{% endif %}
+<div class="card mb-4">
+    <h5 class="card-header bg-primary text-white">Saved Keywords</h5>
+    <div class="card-body">
+        <p>Easily access your saved keywords in one place. Add more keywords by performing at <a href="/search">Search</a>.</p>
+        {% if keywords|length < 1 %}
+            <span class="alert alert-info py-2 px-3 empty-saved">You do not have any saved keywords. You can save a keyword after performing a <a href="/search">Search</a>.</span>
+        {% else %}
+            <div class="row">
+                {% for k in keywords %}
+                    <form class="col-lg-2 col-md-3 col-6" action="/searchbykeyword" method="POST">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="card-title mb-3 fw-semibold">
+                                    <em>{{ k.keyword }}</em>
+                                </div>
+                                <input type="hidden" value="{{ k.keyword }}" name="keyword" id="keyword-{{ k.id }}">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="fill_edit_form({{ k.id}}, '{{ k.keyword }}')">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                    <a href="#" onclick="confirm_delete_keyword({{ k.id }})" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="card">
+    <h5 class="card-header bg-success text-white">Saved Sources</h5>
+    <div class="card-body">
+        <p>Easily access your saved sources in one place. Check out more sources at <a href="/sources">Sources</a>.</p>
+        {% if sources|length < 1 %}
+            <span class="alert alert-info py-2 px-3 empty-saved">You do not have any saved sources. You can save a source at <a href="/sources">Sources</a>.</span>
+        {% else %}
+            <div class="row">
+                {% for s in sources %}
+                    <div class="col-lg-2 col-md-3 col-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="card-title mb-3 fw-semibold">
+                                    <em>{{ s.source_name }}</em>
+                                </div>
+                                <div class="text-end">
+                                    <a href="/sources/{{ s.source_id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </a>
+                                    <a href="#" onclick="confirm_delete_source({{ s.id }})" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="modal" id="edit-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Edit Keyword</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<form class="modal-body" action="/updatekeyword" method="POST" id="edit-keyword-form">
+                <input type="hidden" value="" name="id" id="keyword-id">
+                <input type="hidden" value="{{ u.id }}" name="user_id" id="user-id">
+                <div class="input-group">
+                    <input type="text" value="" class="form-control" name="save_keyword" id="save-keyword">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% include "/include/footer.html" %}

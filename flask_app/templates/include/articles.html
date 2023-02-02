@@ -1,0 +1,16 @@
+<div class="list-group">
+    {% for a in articles %}
+        <a href="{{ a.url }}" class="list-group-item list-group-item-action" target="_blank">
+            <div class="row">
+                <div class="col-md-2 p-2">
+                    <img src="{{ a.urlToImage }}" class="rounded list-img" alt="...">
+                </div>
+                <div class="col-md-10 p-2">
+                    <h5 class="mb-1">{{ a.title }}</h5>
+                    <p class="mb-1">{{ a.description }}</p>
+                    <small><b>{{ a.source.name }}</b> | {{ a.publishedAt }}</small>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>

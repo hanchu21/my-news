@@ -1,0 +1,25 @@
+{% include "/include/header.html" %}
+
+<h3 class="mt-3">Search for News Articles</h3>
+<h6>No Algorithms, No Conspiracy, Just News</h6>
+<hr>
+<form action="/searchbykeyword" method="POST" class="col-md-8 m-auto mt-4">
+    {% with msgs = get_flashed_messages() %}
+        {% if (msgs) %}
+            <div class="alert alert-danger py-2 px-3">
+                {% for m in msgs %}
+                    <p class="text-danger mb-0">{{ m }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter keywords here...">
+    <div class="m-auto text-center mt-3">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i>&nbsp;
+            Search for Articles
+        </button>
+    </div>
+</form>
+
+{% include "/include/footer.html" %}

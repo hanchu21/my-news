@@ -1,0 +1,28 @@
+.navbar-brand {
+    margin-right: 40px;
+}
+
+.nav-item {
+    padding-right: 15px;
+}
+
+.save-keyword {
+    display: inline-block;
+    position: relative;
+    bottom: 2px;
+}
+
+.list-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.empty-saved {
+    display: inline-block;
+}
+
+#edit-modal {
+    margin-top: 120px;
+}

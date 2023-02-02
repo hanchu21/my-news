@@ -1,0 +1,38 @@
+{% include "/include/header.html" %}
+
+<h3 class="mt-3">{{ articles[0].source.name }}</h3>
+<h6>
+    News Articles from {{ articles[0].source.name }}
+    {% if is_logged_in %}
+        <form action="/savesource" method="POST" class="mx-2 save-keyword">
+            <input type="hidden" value="{{ sid }}" name="source_id" id="source_id">
+            <input type="hidden" value="{{ articles[0].source.name }}" name="source_name" id="source_name">
+            <input type="hidden" value="/sources/{{ sid }}" name="redirect" id="redirect">
+            <button type="submit" class="btn badge btn-info" {% if is_saved %}disabled{% endif %}>
+                <i class="fa-solid fa-floppy-disk"></i>
+                &nbsp;Save{% if is_saved %}d{% endif %}
+            </button>
+        </form>
+    {% endif %}
+</h6>
+<hr>
+<div class="col-md-8 m-auto mt-4">
+    {% with msgs = get_flashed_messages() %}
+        {% if (msgs) %}
+            <div class="alert alert-danger py-2 px-3">
+                {% for m in msgs %}
+                    <p class="text-danger mb-0">{{ m }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% if conf_msg %}
+        <div class="alert alert-success py-2 px-3">
+            <p class="text-success mb-0">{{ conf_msg }}</p>
+        </div>
+    {% endif %}
+</div>
+
+{% include "/include/articles.html" %}
+
+{% include "/include/footer.html" %}
