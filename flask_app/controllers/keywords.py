@@ -27,7 +27,7 @@ def update_keyword():
     keyword = Keyword.get_one_by_id(kid)
     if not keyword:
         return fn.alert("This keyword does not exist!", "/home")
-    if not s["user_id"] or s["user_id"] != keyword["user_id"]:
+    if not s["user_id"] or s["user_id"] != keyword.__dict__["uid"]:
         return fn.alert("You do not have permission for this action!", "/home")
     if not Keyword.check_keyword(data["keyword"], data["user_id"]):
         return rd("/home")
@@ -41,7 +41,7 @@ def delete_keyword(kid):
     keyword = Keyword.get_one_by_id(kid)
     if not keyword:
         return fn.alert("This keyword does not exist!", "/home")
-    if not s["user_id"] or s["user_id"] != keyword["user_id"]:
+    if not s["user_id"] or s["user_id"] != keyword.__dict__["uid"]:
         return fn.alert("You do not have permission for this action!", "/home")
     Keyword.delete_one(kid)
     s["conf_msg"] = "The keyword has been deleted successfully"
